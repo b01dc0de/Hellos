@@ -14,6 +14,13 @@ Texture2D MainTexture : register(t0);
 SamplerState MainSampler : register(s0);
 #endif // ENABLE_VERTEX_TEXTURE
 
+cbuffer WorldViewProjBuffer : register(b0)
+{
+    matrix World;
+    matrix View;
+    matrix Proj;
+}
+
 struct VS_INPUT
 {
     float4 Pos : POSITION;
@@ -39,7 +46,13 @@ struct VS_OUTPUT
 VS_OUTPUT VSMain(VS_INPUT Input)
 {
     VS_OUTPUT Output;
+#if 0
     Output.Pos = Input.Pos;
+#else
+    Output.Pos = mul(Input.Pos, World);
+    Output.Pos = mul(Output.Pos, View);
+    Output.Pos = mul(Output.Pos, Proj);
+#endif // WVP TRANSFORM
 #if ENABLE_VERTEX_COLOR
     Output.RGBA = Input.RGBA;
 #endif // ENABLE_VERTEX_COLOR

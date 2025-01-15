@@ -9,7 +9,7 @@
 
 // Globals
 bool bRunning = false;
-HWND hWindow;
+HWND hWindow = nullptr;
 UINT WinResX = 1600U;
 UINT WinResY = 900U;
 
@@ -76,7 +76,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 int WindowMsgLoop(HWND hWindow)
 {
-    MSG Msg;
+	MSG Msg = {};
 	int MsgCount = 0;
     while (PeekMessage(&Msg, hWindow, 0, 0, PM_REMOVE) > 0)
     {

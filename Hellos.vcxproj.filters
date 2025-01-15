@@ -15,6 +15,9 @@
     <ClCompile Include="src\Graphics_DX11.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Utils.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\hlsl\BaseShader.hlsl">
@@ -26,6 +29,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Hellos.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

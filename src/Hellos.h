@@ -12,6 +12,12 @@
 #include <d3dcompiler.h>
 #include <dxgi.h>
 
+// Types
+using u8 = unsigned char;
+using u16 = unsigned short;
+using u32 = unsigned int;
+using s32 = int;
+
 // Globals
 extern bool bRunning;
 extern HWND hWindow;

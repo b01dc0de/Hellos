@@ -23,6 +23,13 @@ namespace Graphics_DX11
 		float Z;
 		float W;
 	};
+	struct m4f
+	{
+		v4f r0;
+		v4f r1;
+		v4f r2;
+		v4f r3;
+	};
 
 	struct VertexColor
 	{
@@ -35,10 +42,17 @@ namespace Graphics_DX11
 		v4f Position;
 		v2f TexUV;
 	};
+
+	struct WVPData
+	{
+		m4f World;
+		m4f View;
+		m4f Proj;
+	};
 	
 	int CompileShaderHelper(LPCWSTR SourceFileName, LPCSTR EntryPointFunction, LPCSTR Profile, ID3DBlob** ShaderBlob, const D3D_SHADER_MACRO* Defines = nullptr);
     int InitGraphics();
-	void UpdateGraphicsState();
+	void UpdateAndDraw();
 	void Draw();
 }
 
