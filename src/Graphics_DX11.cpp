@@ -14,9 +14,6 @@ namespace Graphics_DX11
 	ID3D11RenderTargetView* DX_RenderTargetView = nullptr;
 
 	IDXGIFactory1* DX_Factory = nullptr;
-	std::vector<IDXGIAdapter*> DX_AdapterList;
-	std::vector<IDXGIOutput*> DX_Outputs;
-	std::vector<DXGI_MODE_DESC*> OutputModeDescList;
 
 	ID3D11RasterizerState* DX_RasterizerState = nullptr;
 	ID3D11Texture2D* DX_DepthStencil = nullptr;
@@ -100,31 +97,6 @@ namespace Graphics_DX11
 		(void)D3DFeatureLevel;
 
 		CreateDXGIFactory1(__uuidof(IDXGIFactory), (void**)&DX_Factory);
-		if (nullptr != DX_Factory)
-		{
-			IDXGIAdapter* DX_Adapter = nullptr;
-			for (UINT AdapterIdx = 0; DX_Factory->EnumAdapters(AdapterIdx, &DX_Adapter); AdapterIdx++)
-			{
-				DX_AdapterList.push_back(DX_Adapter);
-			}
-		}
-
-		for (int AdapterIdx = 0; AdapterIdx < DX_AdapterList.size(); AdapterIdx++)
-		{
-			IDXGIOutput* DX_Output = nullptr;
-			for (int OutputIdx = 0; DX_AdapterList[AdapterIdx]->EnumOutputs(OutputIdx, &DX_Output) != DXGI_ERROR_NOT_FOUND; OutputIdx++)
-			{
-				DXGI_FORMAT Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-				UINT NumModes = 0;
-				Result = DX_Output->GetDisplayModeList(Format, 0, &NumModes, nullptr);
-				if (NumModes != 0)
-				{
-					DXGI_MODE_DESC* ModeList = new DXGI_MODE_DESC[NumModes];
-					Result = DX_Output->GetDisplayModeList(Format, 0, &NumModes, ModeList);
-					OutputModeDescList.push_back(ModeList);
-				}
-			}
-		}
 
 		DXGI_SAMPLE_DESC SharedSampleDesc = {};
 		SharedSampleDesc.Count = 4;
