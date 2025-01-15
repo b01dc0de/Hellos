@@ -15,7 +15,7 @@ UINT WinResY = 900U;
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-HWND InitWindow(HINSTANCE hInstance)
+HWND InitWindow(HINSTANCE hInstance, int Width, int Height)
 {
 	WNDCLASSEX WndClass = {};
 	WndClass.cbSize = sizeof(WNDCLASSEX);
@@ -26,7 +26,7 @@ HWND InitWindow(HINSTANCE hInstance)
 
 	RegisterClassEx(&WndClass);
 
-	RECT WndRect = { 0, 0, (LONG)WinResX, (LONG)WinResY };
+	RECT WndRect = { 0, 0, (LONG)Width, (LONG)Height};
 	UINT WndStyle = WS_CAPTION | WS_OVERLAPPEDWINDOW;
 	UINT WndExStyle = WS_EX_OVERLAPPEDWINDOW;
 	AdjustWindowRectEx(&WndRect, WndStyle, FALSE, WndExStyle);
@@ -74,11 +74,24 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return Result;
 }
 
+int WindowMsgLoop(HWND hWindow)
+{
+    MSG Msg;
+	int MsgCount = 0;
+    while (PeekMessage(&Msg, hWindow, 0, 0, PM_REMOVE) > 0)
+    {
+        TranslateMessage(&Msg);
+        DispatchMessage(&Msg);
+		MsgCount++;
+    }
+	return MsgCount;
+}
+
 int WINAPI WinMain_EmptyWindow(HINSTANCE hInst, HINSTANCE hPrevInst, PSTR CmdLine, int WndShow)
 {
 	(void)hPrevInst;
 	(void)CmdLine;
-	if (HWND hWnd = InitWindow(hInst))
+	if (HWND hWnd = InitWindow(hInst, WinResX, WinResY))
 	{
 		hWindow = hWnd;
 
@@ -87,21 +100,16 @@ int WINAPI WinMain_EmptyWindow(HINSTANCE hInst, HINSTANCE hPrevInst, PSTR CmdLin
 		bRunning = true;
 		while (bRunning)
 		{
-			MSG msg;
-			while (PeekMessage(&msg, hWindow, 0, 0, PM_REMOVE) > 0)
-			{
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-			}
+			WindowMsgLoop(hWindow);
 		}
 	}
 	return 0;
 }
-int WINAPI WinMain_DX11_Triangle(HINSTANCE hInst, HINSTANCE hPrevInst, PSTR CmdLine, int WndShow)
+int WINAPI WinMain_DX11_Demo(HINSTANCE hInst, HINSTANCE hPrevInst, PSTR CmdLine, int WndShow)
 {
 	(void)hPrevInst;
 	(void)CmdLine;
-	if (HWND hWnd = InitWindow(hInst))
+	if (HWND hWnd = InitWindow(hInst, WinResX, WinResY))
 	{
 		hWindow = hWnd;
 
@@ -116,23 +124,8 @@ int WINAPI WinMain_DX11_Triangle(HINSTANCE hInst, HINSTANCE hPrevInst, PSTR CmdL
 		bRunning = true;
 		while (bRunning)
 		{
-			// Get input
-			MSG msg;
-			BOOL MsgResult;
-			while ((MsgResult = PeekMessage(&msg, hWindow, 0, 0, PM_REMOVE)) > 0)
-			{
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-			}
-			if (MsgResult == -1)
-			{
-				bRunning = false;
-				break;
-			}
-
-			// Update
+			WindowMsgLoop(hWindow);
 			UpdateWindow(hWindow);
-
 			Graphics_DX11::Draw();
 		}
 	}
@@ -145,18 +138,18 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, PSTR CmdLine, int WndSh
 	int Result = 0;
 
 	static const int Project_Win32_EmptyWindow= 0;
-	static const int Project_Win32_DX11_Triangle = 1;
+	static const int Project_Win32_DX11_Demo = 1;
 
-	static int BuildProject = Project_Win32_DX11_Triangle;
+	static int BuildProject = Project_Win32_DX11_Demo;
 	switch (BuildProject)
 	{
 		case Project_Win32_EmptyWindow:
 		{
 			Result = WinMain_EmptyWindow(hInst, hPrevInst, CmdLine, WndShow);
 		} break;
-		case Project_Win32_DX11_Triangle:
+		case Project_Win32_DX11_Demo:
 		{
-			Result = WinMain_DX11_Triangle(hInst, hPrevInst, CmdLine, WndShow);
+			Result = WinMain_DX11_Demo(hInst, hPrevInst, CmdLine, WndShow);
 		} break;
 		default:
 		{

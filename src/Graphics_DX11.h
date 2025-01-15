@@ -29,9 +29,15 @@ namespace Graphics_DX11
 		v4f Position;
 		v4f Color;
 	};
+
+	struct VertexTexture
+	{
+		v4f Position;
+		v2f TexUV;
+	};
 	
-	int CompileShaderHelper(LPCWSTR SourceFileName, LPCSTR EntryPointFunction, LPCSTR Profile, ID3DBlob** ShaderBlob);
-	int InitGraphics();
+	int CompileShaderHelper(LPCWSTR SourceFileName, LPCSTR EntryPointFunction, LPCSTR Profile, ID3DBlob** ShaderBlob, const D3D_SHADER_MACRO* Defines = nullptr);
+    int InitGraphics();
 	void UpdateGraphicsState();
 	void Draw();
 }

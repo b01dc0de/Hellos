@@ -27,7 +27,14 @@ namespace Graphics_DX11
 	ID3D11PixelShader* DX_PixelShader = nullptr;
 	ID3D11InputLayout* DX_InputLayout = nullptr;
 
-	int CompileShaderHelper(LPCWSTR SourceFileName, LPCSTR EntryPointFunction, LPCSTR Profile, ID3DBlob** ShaderBlob)
+	int CompileShaderHelper
+	(
+		LPCWSTR SourceFileName,
+		LPCSTR EntryPointFunction,
+		LPCSTR Profile,
+		ID3DBlob** ShaderBlob,
+		const D3D_SHADER_MACRO* Defines
+	)
 	{
 		HRESULT Result = S_OK;
 
@@ -50,7 +57,7 @@ namespace Graphics_DX11
 		Result = D3DCompileFromFile
 		(
 			SourceFileName,
-			nullptr,
+			Defines,
 			D3D_COMPILE_STANDARD_FILE_INCLUDE,
 			EntryPointFunction,
 			Profile,
@@ -76,11 +83,19 @@ namespace Graphics_DX11
 		return Result;
 	};
 
-	VertexColor Vertices[] =
+	VertexColor Vertices_Triangle[] =
 	{
 		{{0.0f, 0.5f, 0.5f, 1.0f}, {0.0f, 0.0f, 1.0f, 1.0f}},
 		{{0.5f, -0.5f, 0.5f, 1.0f}, {1.0f, 0.0f, 0.0f, 1.0f}},
 		{{-0.5f, -0.5f, 0.5f, 1.0f}, {0.0f, 1.0f, 0.0f, 1.0f}}
+	};
+
+	VertexTexture Vertices_Quad[]
+	{
+		{{-1.0f, -1.0f, +0.5f, +1.0f}, {+0.0f, +0.0f}},
+		{{+1.0f, -1.0f, +0.5f, +1.0f}, {+1.0f, +0.0f}},
+		{{-1.0f, +1.0f, +0.5f, +1.0f}, {+0.0f, +1.0f}},
+		{{+1.0f, +1.0f, +0.5f, +1.0f}, {+1.0f, +1.0f}},
 	};
 
 	int InitGraphics()
@@ -208,13 +223,13 @@ namespace Graphics_DX11
 
 		D3D11_BUFFER_DESC VertexBufferDesc =
 		{
-			sizeof(VertexColor) * ARRAYSIZE(Vertices),
+			sizeof(VertexColor) * ARRAYSIZE(Vertices_Triangle),
 			D3D11_USAGE_DEFAULT,
 			D3D11_BIND_VERTEX_BUFFER,
 			0,
 			0
 		};
-		D3D11_SUBRESOURCE_DATA VertexBufferInitData = { Vertices, 0, 0 };
+		D3D11_SUBRESOURCE_DATA VertexBufferInitData = { Vertices_Triangle, 0, 0 };
 		Result = DX_Device->CreateBuffer(&VertexBufferDesc, &VertexBufferInitData, &DX_VertexBuffer);
 		DXCHECK(Result);
 
@@ -234,10 +249,16 @@ namespace Graphics_DX11
 		ID3DBlob* VSCodeBlob = nullptr;
 		ID3DBlob* PSCodeBlob = nullptr;
 
-		Result = CompileShaderHelper(L"src/hlsl/BaseShader.hlsl", "VSMain", "vs_5_0", &VSCodeBlob);
+		const D3D_SHADER_MACRO VxColorDefines[] =
+		{
+			"ENABLE_VERTEX_COLOR", "1",
+			"ENABLE_VERTEX_TEXTURE", "0",
+			NULL, NULL
+		};
+		Result = CompileShaderHelper(L"src/hlsl/BaseShader.hlsl", "VSMain", "vs_5_0", &VSCodeBlob, VxColorDefines);
 		DXCHECKMSG(Result, "Failed to compile Vertex Shader! :(\n");
 
-		Result = CompileShaderHelper(L"src/hlsl/BaseShader.hlsl", "PSMain", "ps_5_0", &PSCodeBlob);
+		Result = CompileShaderHelper(L"src/hlsl/BaseShader.hlsl", "PSMain", "ps_5_0", &PSCodeBlob, VxColorDefines);
 		DXCHECKMSG(Result, "Failed to compile Pixel Shader! :(\n");
 
 		if (VSCodeBlob && PSCodeBlob)
