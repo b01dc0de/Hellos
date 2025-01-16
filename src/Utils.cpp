@@ -45,7 +45,7 @@ namespace Utils
 			SwizzledImage[PxIdx] = RGBA32::Swizzle(InImage.PixelBuffer[PxIdx]);
 		}
 
-		u32 PxBytes = sizeof(u32) * InImage.PxCount;
+		u32 PxBytes = sizeof(RGBA32) * InImage.PxCount;
 
 		BMP BMP_Data = {};
 
@@ -92,7 +92,7 @@ namespace Utils
 		if (nullptr != BMP_File)
 		{
 			// Get file size in bytes
-			fpos_t FileSizeBytes;
+			fpos_t FileSizeBytes = 0;
 			{
 				int Result = fseek(BMP_File, 0, SEEK_END);
 				// CKA_TODO: Assert Result == 0
@@ -108,14 +108,16 @@ namespace Utils
 
 			if (SupportedBPP != ReadBMP.InfoHeader.BitsPerPixel) { DebugBreak(); }
 
+			size_t BytesRemaining = FileSizeBytes - sizeof(BMP);
 			if (BitmapFileTypeValue == ReadBMP.FileHeader.Type)
 			{
+				u8* NewPxBuffer = new u8[BytesRemaining];
 				// Extract pixel data into OutImage struct
 				OutImage.Width = ReadBMP.InfoHeader.Width;
                 OutImage.Height = ReadBMP.InfoHeader.Height > 0 ? ReadBMP.InfoHeader.Height : -ReadBMP.InfoHeader.Height;
 				OutImage.PxCount = OutImage.Width * OutImage.Height;
-				OutImage.PxBytes = sizeof(RGBA32) * OutImage.PxCount;
-				OutImage.PixelBuffer = new RGBA32[OutImage.PxCount];
+				OutImage.PxBytes = BytesRemaining;
+				OutImage.PixelBuffer = (RGBA32*)(NewPxBuffer);
 
 				fread_s(OutImage.PixelBuffer, OutImage.PxBytes, OutImage.PxBytes, 1, BMP_File);
 

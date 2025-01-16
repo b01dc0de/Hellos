@@ -27,7 +27,7 @@ namespace Utils
 		}
 	};
 
-    	struct Image32
+    struct Image32
 	{
 		u32 Width;
 		u32 Height;
@@ -39,6 +39,8 @@ namespace Utils
     void WriteBMP(const char* OutFilename, const Image32& InImage);
 	void ReadBMP(const char* InFilename, Image32& OutImage);
 	void GetDebugBMP(Image32& OutImage);
+
+	void WriteBMPTest(const char* OutFilename);
 }
 
 #endif // UTILS_H

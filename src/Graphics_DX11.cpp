@@ -317,8 +317,7 @@ namespace Graphics_DX11
         // DebugTexture
         {
             Utils::Image32 BMPImage = {};
-            Utils::GetDebugBMP(BMPImage);
-            //Utils::WriteBMP("Assets/DebugTexture.bmp", BMPImage);
+			Utils::GetDebugBMP(BMPImage);
 
             D3D11_SUBRESOURCE_DATA DebugTexDataDesc[] = { {} };
             DebugTexDataDesc[0].pSysMem = BMPImage.PixelBuffer;
@@ -422,7 +421,7 @@ namespace Graphics_DX11
 
             DX_ImmediateContext->VSSetConstantBuffers(WVPBufferSlot, 1, &DX_WVPBuffer);
 
-            DX_ImmediateContext->DrawIndexed(ARRAYSIZE(Indices_Triangle), 0u, 0u);
+            //DX_ImmediateContext->DrawIndexed(ARRAYSIZE(Indices_Triangle), 0u, 0u);
 		}
 
 		// Quad
