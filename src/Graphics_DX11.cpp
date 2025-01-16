@@ -317,7 +317,8 @@ namespace Graphics_DX11
         // DebugTexture
         {
             Utils::Image32 BMPImage = {};
-            Utils::ReadBMP("Assets/DebugTexture.bmp", BMPImage);
+            Utils::GetDebugBMP(BMPImage);
+            //Utils::WriteBMP("Assets/DebugTexture.bmp", BMPImage);
 
             D3D11_SUBRESOURCE_DATA DebugTexDataDesc[] = { {} };
             DebugTexDataDesc[0].pSysMem = BMPImage.PixelBuffer;

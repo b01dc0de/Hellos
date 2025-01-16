@@ -16,7 +16,7 @@ namespace Utils
 		{
 			return u32((A << 24) | (B << 16) | (G << 8) | (R << 0));
 		}
-        static RGBA32 Unswizzle(RGBA32 InVal)
+        static RGBA32 Swizzle(RGBA32 InVal)
 		{
 			RGBA32 Result = {};
 			Result.R = InVal.B;
@@ -36,7 +36,9 @@ namespace Utils
 		RGBA32* PixelBuffer;
 	};
 
+    void WriteBMP(const char* OutFilename, const Image32& InImage);
 	void ReadBMP(const char* InFilename, Image32& OutImage);
+	void GetDebugBMP(Image32& OutImage);
 }
 
 #endif // UTILS_H
