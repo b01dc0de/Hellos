@@ -18,6 +18,9 @@
     <ClCompile Include="src\Utils.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Math.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\hlsl\BaseShader.hlsl">
@@ -32,6 +35,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Utils.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Math.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

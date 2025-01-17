@@ -5,32 +5,6 @@
 
 namespace Graphics_DX11
 {
-	struct v2f
-	{
-		float X;
-		float Y;
-	};
-	struct v3f
-	{
-		float X;
-		float Y;
-		float Z;
-	};
-	struct v4f
-	{
-		float X;
-		float Y;
-		float Z;
-		float W;
-	};
-	struct m4f
-	{
-		v4f r0;
-		v4f r1;
-		v4f r2;
-		v4f r3;
-	};
-
 	struct VertexColor
 	{
 		v4f Position;

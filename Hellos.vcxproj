@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClCompile Include="src\Graphics_DX11.cpp" />
     <ClCompile Include="src\Hellos.cpp" />
+    <ClCompile Include="src\Math.cpp" />
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="src\Graphics_DX11.h" />
     <ClInclude Include="src\Hellos.h" />
+    <ClInclude Include="src\Math.h" />
     <ClInclude Include="src\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
