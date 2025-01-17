@@ -24,4 +24,8 @@ extern HWND hWindow;
 extern UINT WinResX;
 extern UINT WinResY;
 
+// Hellos headers
+#include "Math.h"
+#include "Utils.h"
+
 #endif // HELLOS_H

@@ -51,4 +51,11 @@ namespace Math
 	m4f Mult(m4f Left, m4f Right);
 }
 
+using Math::v2f;
+using Math::v3f;
+using Math::v4f;
+using Math::m2f;
+using Math::m3f;
+using Math::m4f;
+
 #endif // MATH_H

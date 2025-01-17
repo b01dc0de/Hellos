@@ -421,7 +421,7 @@ namespace Graphics_DX11
 
             DX_ImmediateContext->VSSetConstantBuffers(WVPBufferSlot, 1, &DX_WVPBuffer);
 
-            //DX_ImmediateContext->DrawIndexed(ARRAYSIZE(Indices_Triangle), 0u, 0u);
+            DX_ImmediateContext->DrawIndexed(ARRAYSIZE(Indices_Triangle), 0u, 0u);
 		}
 
 		// Quad

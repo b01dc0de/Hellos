@@ -1,4 +1,4 @@
-#include "Utils.h"
+#include "Hellos.h"
 
 namespace Utils
 {
@@ -40,7 +40,7 @@ namespace Utils
 	void WriteBMP(const char* OutFilename, const Image32& InImage)
 	{
 		RGBA32* SwizzledImage = new RGBA32[InImage.PxCount];
-		for (int PxIdx = 0; PxIdx < InImage.PxCount; PxIdx++)
+		for (unsigned int PxIdx = 0; PxIdx < InImage.PxCount; PxIdx++)
 		{
 			SwizzledImage[PxIdx] = RGBA32::Swizzle(InImage.PixelBuffer[PxIdx]);
 		}

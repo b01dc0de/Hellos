@@ -1,8 +1,6 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include "Hellos.h"
-
 namespace Utils
 {
 	struct RGBA32
